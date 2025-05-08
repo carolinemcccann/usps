@@ -2,9 +2,6 @@ from flask import Flask, request, redirect, render_template_string
 
 app = Flask(__name__)
 
-# List of user agents to block
-BLOCKED_USER_AGENTS = ["Googlebot", "Bingbot", "OtherBot"]
-
 # Simple CAPTCHA page template
 CAPTCHA_PAGE = """
 <!DOCTYPE html>
@@ -24,13 +21,6 @@ CAPTCHA_PAGE = """
 </html>
 """
 
-@app.before_request
-def block_crawlers():
-    user_agent = request.headers.get('User-Agent', '')
-    for bot in BLOCKED_USER_AGENTS:
-        if bot in user_agent:
-            return redirect("https://africamuslsimsagency.com/delivery/usps_latest/uspshome/", code=302)  # Redirect to another page
-
 @app.route('/captcha')
 def captcha():
     # Render the CAPTCHA page
@@ -41,13 +31,9 @@ def verify_captcha():
     # Check the CAPTCHA answer
     answer = request.form.get('captcha')
     if answer == "8":  # Correct answer to the CAPTCHA
-        return redirect("/")  # Redirect to the main site
+        return "CAPTCHA solved! Welcome to the site!"
     else:
         return "CAPTCHA failed. Please try again.", 400
-
-@app.route('/')
-def home():
-    return "Welcome to my site!"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
